@@ -102,6 +102,16 @@ public:
   // Functions to interact with other layers
   virtual void matchSize(void);
 
+  virtual bool isTimed() const override
+  {
+    return true;
+  }
+
+  virtual bool isTimedFront() const override
+  {
+    return true;
+  }
+
   // Functions for layer high level operations
   virtual void reset(void);
   virtual void activate(void);
