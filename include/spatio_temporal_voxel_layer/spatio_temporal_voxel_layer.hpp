@@ -102,16 +102,6 @@ public:
   // Functions to interact with other layers
   virtual void matchSize(void);
 
-  virtual bool isTimed() const override
-  {
-    return true;
-  }
-
-  virtual bool isTimedFront() const override
-  {
-    return true;
-  }
-
   // Functions for layer high level operations
   virtual void reset(void);
   virtual void activate(void);
@@ -160,7 +150,7 @@ private:
 
   laser_geometry::LaserProjection                                  _laser_projector;
   std::vector<boost::shared_ptr<message_filters::SubscriberBase> > _observation_subscribers;
-  std::vector<boost::shared_ptr<tf2_ros::MessageFilterBase> >           _observation_notifiers;
+  std::vector<boost::shared_ptr<tf2_ros::MessageFilterBase> >      _observation_notifiers;
   std::vector<boost::shared_ptr<buffer::MeasurementBuffer> >       _observation_buffers;
   std::vector<boost::shared_ptr<buffer::MeasurementBuffer> >       _marking_buffers;
   std::vector<boost::shared_ptr<buffer::MeasurementBuffer> >       _clearing_buffers;

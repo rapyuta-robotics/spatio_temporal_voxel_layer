@@ -84,6 +84,8 @@ void SpatioTemporalVoxelLayer::onInitialize(void)
   // whether to default on
   nh.param("enabled", _enabled, true);
   enabled_ = _enabled; // costmap_2d for some unexplicable reason uses globals
+  timed_ = true;
+  timed_front_ = true;
   // publish the voxel grid to visualize
   nh.param("publish_voxel_map", _publish_voxels, false);
   // size of each voxel in meters
