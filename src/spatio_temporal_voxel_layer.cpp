@@ -147,6 +147,7 @@ void SpatioTemporalVoxelLayer::onInitialize(void)
     double observation_keep_time, expected_update_rate, min_obstacle_height;
     double max_obstacle_height, min_z, max_z, vFOV, vFOVPadding;
     double hFOV, decay_acceleration;
+    double frustum_roll, frustum_pitch, frustum_yaw;
     std::string topic, sensor_frame, data_type, filter_str;
     bool inf_is_valid, clearing, marking, clear_after_reading, enabled;
     int voxel_min_points;
@@ -166,6 +167,12 @@ void SpatioTemporalVoxelLayer::onInitialize(void)
     source_node.param("min_z", min_z, 0.);
     // maximum distance from camera it can see
     source_node.param("max_z", max_z, 10.);
+    // roll angle of the frustum in rad, relative to the sensor frame
+    source_node.param("frustum_roll", frustum_roll, 0.0);
+    // pitch angle of the frustum in rad, relative to the sensor frame
+    source_node.param("frustum_pitch", frustum_pitch, 0.0);
+    // yaw angle of the frustum in rad, relative to the sensor frame
+    source_node.param("frustum_yaw", frustum_yaw, 0.0);
     // vertical FOV angle in rad
     source_node.param("vertical_fov_angle", vFOV, 0.7);
     // vertical FOV padding in meters (3D lidar frustum only)
@@ -227,10 +234,10 @@ void SpatioTemporalVoxelLayer::onInitialize(void)
         (new buffer::MeasurementBuffer(topic, observation_keep_time,      \
         expected_update_rate, min_obstacle_height, max_obstacle_height,   \
         obstacle_range, *tf_, _global_frame, sensor_frame,                \
-        transform_tolerance, min_z, max_z, vFOV, vFOVPadding, hFOV,       \
-        decay_acceleration, marking, clearing, _voxel_size,               \
-        filter, voxel_min_points, enabled, clear_after_reading,           \
-        model_type)));
+        transform_tolerance, min_z, max_z, frustum_roll, frustum_pitch,   \
+        frustum_yaw, vFOV, vFOVPadding, hFOV, decay_acceleration,         \
+        marking, clearing, _voxel_size, filter, voxel_min_points,         \
+        enabled, clear_after_reading, model_type)));
 
     // Add buffer to marking observation buffers
     if (marking == true)

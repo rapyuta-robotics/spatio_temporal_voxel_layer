@@ -55,6 +55,9 @@ MeasurementBuffer::MeasurementBuffer(const std::string& topic_name,          \
                                      const double& tf_tolerance,             \
                                      const double& min_d,                    \
                                      const double& max_d,                    \
+                                     const double& frustum_roll,             \
+                                     const double& frustum_pitch,            \
+                                     const double& frustum_yaw,              \
                                      const double& vFOV,                     \
                                      const double& vFOVPadding,              \
                                      const double& hFOV,                     \
@@ -74,6 +77,7 @@ MeasurementBuffer::MeasurementBuffer(const std::string& topic_name,          \
     _topic_name(topic_name), _min_obstacle_height(min_obstacle_height), 
     _max_obstacle_height(max_obstacle_height), _obstacle_range(obstacle_range),
     _tf_tolerance(tf_tolerance), _min_z(min_d), _max_z(max_d), 
+    _frustum_roll(frustum_roll), _frustum_pitch(frustum_pitch), _frustum_yaw(frustum_yaw),
     _vertical_fov(vFOV), _vertical_fov_padding(vFOVPadding),
     _horizontal_fov(hFOV), _decay_acceleration(decay_acceleration),
     _marking(marking), _clearing(clearing), _voxel_size(voxel_size),
@@ -106,10 +110,12 @@ void MeasurementBuffer::BufferROSCloud(const sensor_msgs::PointCloud2& cloud)
     local_pose.pose.position.x=0;
     local_pose.pose.position.y=0;
     local_pose.pose.position.z=0;
-    local_pose.pose.orientation.x=0;
-    local_pose.pose.orientation.y=0;
-    local_pose.pose.orientation.z=0;
-    local_pose.pose.orientation.w=1;
+
+    // oriante the pose to match the frustum
+    tf2::Quaternion q;
+    q.setRPY(_frustum_roll, _frustum_pitch, _frustum_yaw);
+    local_pose.pose.orientation = tf2::toMsg(q);
+
     local_pose.header.stamp = cloud.header.stamp;
     local_pose.header.frame_id = origin_frame;
 

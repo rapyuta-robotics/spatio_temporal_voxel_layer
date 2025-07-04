@@ -94,6 +94,9 @@ public:
                     const double& tf_tolerance,             \
                     const double& min_d,                    \
                     const double& max_d,                    \
+                    const double& frustum_roll,             \
+                    const double& frustum_pitch,            \
+                    const double& frustum_yaw,
                     const double& vFOV,                     \
                     const double& vFOVPadding,              \
                     const double& hFOV,                     \
@@ -141,6 +144,7 @@ private:
   std::list<observation::MeasurementReading> _observation_list;
   double _min_obstacle_height, _max_obstacle_height, _obstacle_range, _tf_tolerance;
   double _min_z, _max_z, _vertical_fov, _vertical_fov_padding, _horizontal_fov;
+  double _frustum_roll, _frustum_pitch, _frustum_yaw;
   double  _decay_acceleration, _voxel_size;
   bool _marking, _clearing, _clear_buffer_after_reading, _enabled;
   Filters _filter;
